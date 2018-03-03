@@ -30,7 +30,7 @@ router.get('/:playername', /*cache.route(),*/ function(req, res, next) {
             console.log(err);
         }
 
-        if(docs.length !== 0){
+        if(docs.length !== 1){
             res.json({
                 "error": true,
                 "message": "Player named " + nick + " not found or issue with database (duplicated profile?)"
