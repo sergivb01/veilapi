@@ -24,7 +24,7 @@ var cache = require('express-redis-cache')({
 
 
 router.get('/:uuid', /*cache.route(),*/ function(req, res, next) {
-    var nick = req.params.uuid.replace("\\", "/");
+    var nick = req.params.uuid.replace(";", "/");
     db.collection('deaths').find({'death': nick}).toArray(function(err, docs) {
         if(err){
             console.log(err);
