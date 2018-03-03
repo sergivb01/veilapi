@@ -20,6 +20,7 @@ app.use('/', index);
 app.use('/player', users);
 app.use('/faction', factions);
 
+//404 handler
 app.use(function(req, res, next) {
     res.json({
         "error": true,
