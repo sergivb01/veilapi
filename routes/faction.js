@@ -2,7 +2,7 @@ var express = require('express');
 var db = require("mongodb");
 var router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
-MongoClient.connect("mongodb://localhost:27017", function(err, client) {
+MongoClient.connect("mongodb://158.69.123.169:27017", function(err, client) {
     if(err){
         console.log("Error! " + err)
     }
@@ -15,7 +15,7 @@ MongoClient.connect("mongodb://localhost:27017", function(err, client) {
 
 
 var cache = require('express-redis-cache')({
-    host: "localhost",
+    host: "158.69.123.169",
     port: 6379,
     auth_pass: "c95668e7c556e6c096595310f33c95dd",
     expiry: 30
