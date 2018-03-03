@@ -21,14 +21,20 @@ app.use('/player', users);
 app.use('/faction', factions);
 
 app.use(function(req, res, next) {
-  res.send("404");
+    res.json({
+        "error": true,
+        "message": "Invalid API usage or 404."
+    });
   next();
 });
 
 
 // error handler
 app.use(function(err, req, res, next) {
-  res.send("Error: " + err);
+  res.json({
+     "error": true,
+     "message": err
+  });
 });
 
 module.exports = app;
