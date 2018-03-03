@@ -41,7 +41,7 @@ router.get('/:playername', /*cache.route(),*/ function(req, res, next) {
         delete docs[0].address;
         delete docs[0]._id;
         docs[0].error = false;
-        res.send(docs);
+        res.send(docs[0]);
     });
 });
 
