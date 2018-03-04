@@ -16,7 +16,7 @@ MongoClient.connect("mongodb://" + host + ":27017", function(err, client) {
 
 
 var cache = require('express-redis-cache')({
-    host: "158.69.123.169",
+    host: host,
     port: 6379,
     auth_pass: "c95668e7c556e6c096595310f33c95dd",
     expiry: 30
