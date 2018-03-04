@@ -30,13 +30,13 @@ router.get('/:uuid', /*cache.route(),*/ function(req, res, next) {
             console.log(err);
         }
 
-        if(docs.length == 0){
+        /*if(docs.length == 0){
             res.json({
                 "error": true,
                 "message": "There are no deaths saved for UUID " + nick
             });
             return;
-        }
+        }*/
 
         res.send(docs);
     });
