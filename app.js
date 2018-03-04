@@ -17,11 +17,13 @@ var index = require('./routes/index');
 var users = require('./routes/player');
 var factions = require('./routes/faction');
 var deaths = require('./routes/death');
+var leaderboard = require('./routes/leaderboard');
 
 app.use('/', index);
 app.use('/player', users);
 app.use('/faction', factions);
 app.use('/deaths', deaths);
+app.use('/leaderboard', leaderboard);
 
 //404 handler
 app.use(function(req, res, next) {

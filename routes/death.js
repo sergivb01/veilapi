@@ -29,7 +29,7 @@ router.get('/:uuid', /*cache.route(),*/ function (req, res, next) {
     db.collection('deaths').find({'dead': nick},  { upsert:true })
         .toArray(function (err, docs) {
         if (err) {
-            console.log(err);
+            console.log("Error! " + err);
         }
         console.log(docs.length);
         res.send("hewdea");
