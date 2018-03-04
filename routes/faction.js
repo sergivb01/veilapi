@@ -2,7 +2,8 @@ var express = require('express');
 var db = require("mongodb");
 var router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
-MongoClient.connect("mongodb://158.69.123.169:27017", function(err, client) {
+var host = process.env.PORT ? "58.69.123.169" : "localhost";
+MongoClient.connect("mongodb://" + host + ":27017", function(err, client) {
     if(err){
         console.log("Error! " + err)
     }
