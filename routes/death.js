@@ -24,19 +24,11 @@ var cache = require('express-redis-cache')({
 
 
 router.get('/:uuid', /*cache.route(),*/ function(req, res, next) {
-    var nick = req.params.uuid.replace(";", "/");
-    db.collection('deaths').find({'death': nick}).toArray(function(err, docs) {
+    var nick = "REgnAGk2+tYctM1922/otw==";
+    db.collection('deaths').find({'dead': req.mongo.Binary(nick)}).toArray(function(err, docs) {
         if(err){
             console.log(err);
         }
-
-        /*if(docs.length == 0){
-            res.json({
-                "error": true,
-                "message": "There are no deaths saved for UUID " + nick
-            });
-            return;
-        }*/
 
         res.send(docs);
     });
