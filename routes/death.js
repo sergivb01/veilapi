@@ -25,14 +25,18 @@ var cache = require('express-redis-cache')({
 });
 
 router.get('/:uuid', /*cache.route(),*/ function (req, res, next) {
-    var nick = new binary.Binary("E0yu8/RyB9BG0lZ7sNwciQ==");
-    db.collection('deaths').find({'dead': nick},  { upsert:true })
+    var nick = req.params.uuid;
+    db.collection('deaths').find({'dead_str': nick},  { upsert:true }).limit(20)
         .toArray(function (err, docs) {
         if (err) {
             console.log("Error! " + err);
         }
-        console.log(docs.length);
-        res.send("hewdea");
+
+        for(var i = 0; i < docs.length; i++){
+            delete docs[i]._id;
+        }
+
+        res.send(docs);
     });
 });
 

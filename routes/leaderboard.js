@@ -3,8 +3,8 @@ var db = require("mongodb");
 var router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
 var host = process.env.PORT ? "158.69.123.169" : "localhost";
-MongoClient.connect("mongodb://" + host + ":27017", function(err, client) {
-    if(err){
+MongoClient.connect("mongodb://" + host + ":27017", function (err, client) {
+    if (err) {
         console.log("Error! " + err)
     }
     console.log("Connected successfully to server");
@@ -22,26 +22,36 @@ var cache = require('express-redis-cache')({
     expiry: 30
 });
 
-
-
-router.get('/:type', /*cache.route(),*/ function(req, res, next) {
-    var nick = req.params.faction;
-    console.log(nick);
-    db.collection('playerdata').find({}).sort(hcf.profile.kills, 1).limit(10).toArray(function(err, docs) {
-        if(err){
+router.get('/:srv/:type', /*cache.route(),*/ function (req, res, next) {
+    var srv = req.params.srv;
+    var type = req.params.type;
+    db.collection('playerdata').find({}).sort([srv + '.profile.' + type, 'desc']).limit(10).toArray(function (err, docs) {
+        if (err) {
             console.log(err);
         }
-        console.log(docs)
-        if(docs.length == 0){
+        if (docs.length == 0) {
             res.json({
                 "error": true,
-                "message": "Faction named " + nick + " not found."
+                "message": "There is no data!"
             });
             return;
         }
 
-        for(var i = 0; i < docs.length; i++) {
+        var delkits = srv !== "kits";
+        var delhcf = srv !== "hcf";
+        var dellite = srv !== "lite";
+
+        for (var i = 0; i < docs.length; i++) {
             delete docs[i]._id;
+            if(delkits){
+                delete docs[i].kits;
+            }
+            if(delhcf){
+                delete docs[i].hcf;
+            }
+            if(dellite){
+                delete docs[i].lite;
+            }
         }
         docs.error = false;
         res.send(docs);
