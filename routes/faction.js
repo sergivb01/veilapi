@@ -24,10 +24,11 @@ var cache = require('express-redis-cache')({
 
 
 
-router.get('/:faction', /*cache.route(),*/ function(req, res, next) {
+router.get('/:faction/:server', /*cache.route(),*/ function(req, res, next) {
     var nick = req.params.faction;
-    console.log(nick);
-    db.collection('factions').find({'name': nick}).toArray(function(err, docs) {
+    var server = req.params.server;
+
+    db.collection('factions').find({'name': nick, "server": server}).toArray(function(err, docs) {
         if(err){
             console.log(err);
         }
