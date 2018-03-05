@@ -24,9 +24,20 @@ var cache = require('express-redis-cache')({
     expiry: 30
 });
 
-router.get('/:uuid', /*cache.route(),*/ function (req, res, next) {
+router.get('/:uuid/:server/:limit', /*cache.route(),*/ function (req, res, next) {
     var nick = req.params.uuid;
-    db.collection('deaths').find({'dead_str': nick},  { upsert:true }).sort(['timestamp', 'desc']).limit(20).toArray(function (err, docs) {
+    var server = req.params.server;
+    var limit = req.params.limit;
+
+    if(limit > 20){
+        res.json({
+           "error": true,
+           "message": "Max shown deaths is 20."
+        });
+        return;
+    }
+
+    db.collection('deaths').find({'dead_str': nick, "server": server},  { upsert:true }).sort(['timestamp', 'desc']).limit(parseInt(limit)).toArray(function (err, docs) {
         if (err) {
             console.log("Error! " + err);
         }
