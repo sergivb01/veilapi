@@ -43,6 +43,7 @@ router.get('/:srv/:type', /*cache.route(),*/ function (req, res, next) {
 
         for (var i = 0; i < docs.length; i++) {
             delete docs[i]._id;
+            delete docs[i].address;
             if(delkits){
                 delete docs[i].kits;
             }
