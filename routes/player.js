@@ -22,7 +22,27 @@ var cache = require('express-redis-cache')({
     expiry: 30
 });
 
+router.get('/uuid/:uuid', /*cache.route(),*/ function(req, res, next) {
+    var nick = req.params.uuid;
+    db.collection('playerdata').find({'uuid_str': nick}).toArray(function(err, docs) {
+        if(err){
+            console.log(err);
+        }
 
+        if(docs.length !== 1){
+            res.json({
+                "error": true,
+                "message": "Player named " + nick + " not found or issue with database (duplicated profile?)"
+            });
+            return;
+        }
+
+        delete docs[0].address;
+        delete docs[0]._id;
+        docs[0].error = false;
+        res.send(docs[0]);
+    });
+});
 
 router.get('/:playername', /*cache.route(),*/ function(req, res, next) {
     var nick = req.params.playername;
@@ -35,7 +55,7 @@ router.get('/:playername', /*cache.route(),*/ function(req, res, next) {
             res.json({
                 "error": true,
                 "message": "Player named " + nick + " not found or issue with database (duplicated profile?)"
-                });
+            });
             return;
         }
 
@@ -45,5 +65,6 @@ router.get('/:playername', /*cache.route(),*/ function(req, res, next) {
         res.send(docs[0]);
     });
 });
+
 
 module.exports = router;
